@@ -1,0 +1,40 @@
+server:
+  port: 80
+spring:
+  datasource:
+    username: root
+    password:
+      # mysql-connector-java 依赖如果没有指定版本，默认跟随 spring-boot-dependencies 里的版本，随着boot版本的提高，相应依赖的版本也会提高，随之会有一些版本兼容问题
+      # 比如这里涉及时间的兼容性问题。在 MySQL8.0 的驱动包中默认时区是全球统一时间 (UTC)，而北京时间则是 UTC+8，注意时间测试。如果设置 serverTimezone=UTC，会比中国时间早8个小时，如果在中国，可以选择Asia/Shanghai或者Asia/Hongkong，
+      # allowMultiQueries=true 开启批处理支持
+      # MySQL在高版本需要指明是否进行SSL连接 ，通常不需要的话设置 useSSL=false 来显式禁用SSL连接
+    url: jdbc:mysql://localhost:3306/hello-boot?useUnicode=true&useSSL=false&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+      # The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
+      # 基于SPI(服务发现机制)，在ClassPath路径下的META-INF/services文件夹查找文件，可以自动加载文件里所定义的类 所以，当你引入了mysql-connector-java的驱动包后，是你不需要再显示的配置 driver-class-name: com.mysql.cj.jdbc.Driver
+    # driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+        idle-timeout: 50000
+        connection-timeout: 5000
+        minimum-idle: 5
+
+    # Initialize the datasource with available DDL and DML scripts.
+    initialization-mode: always
+    schema:
+       - "classpath:db/schema.sql"
+    data:
+       - "classpath:db/data.sql"
+
+
+
+mybatis-plus:
+  configuration:
+    # sql 打印
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 此处仅为简单测试用配置 正式的日志配置建议使用专门的日志配置文件如logback-spring.xml等
+logging:
+  level:
+    # SpringBoot2.0以上版本配置日志级别需要指定包路径
+    cnblogs.chenbenbuyi: info
+    # 不分青红皂白，更改所有包的日志级别
+    # root: info

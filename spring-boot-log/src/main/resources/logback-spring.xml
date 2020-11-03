@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+scan：当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。
+scanPeriod：设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。
+debug：当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。
+-->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!-- 定义日志的根目录 如果不写或书写目录不正确，则会将日志记录到项目运行的根路径   建议写绝对路径  -->
+    <property name="LOG_HOME" value="D:/java/log"/>
+    <!-- 定义日志文件名称  你可以看到，类似的公共属性都可以这样定义，在文件中使用-->
+    <property name="APP_NAME" value="spring-boot-series"/>
+
+    <!-- appender用来格式化日志输出节点，有俩个属性 name和class，name指定的名字在root或logger的 appender-ref 节点中被引用，class用来指定哪种输出策略，常用就是控制台输出策略(ConsoleAppender)和文件滚动输出策略(RollingFileAppender)-->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <!--
+        日志输出格式：
+			%d表示日期时间，
+			%thread表示线程名，
+			%-5level：级别从左显示5个字符宽度
+			%logger{50} 表示logger名字最长50个字符，否则按照句点分割。
+			%msg：日志消息，
+			%n是换行符
+        -->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} --控制台--[%thread] %-5level %logger{50} - %msg%n</pattern>
+            <!--  如果该日志文件名为 logback-spring.xml  就可以使用spring的Profile功能，如下配置不同环境的输出不同的日志打印格式-->
+            <springProfile name="dev">
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} --开发日志-- [%thread] ---> %-5level %logger{50} - %msg%n</pattern>
+            </springProfile>
+            <springProfile name="prod">
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} --生产日志-- [%thread] %-5level %logger{50} - %msg%n</pattern>
+            </springProfile>
+        </layout>
+    </appender>
+
+    <!-- 滚动记录文件 -->
+    <appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${APP_NAME}.log</file>
+        <!--
+            TimeBasedRollingPolicy： 时间滚动策略，它根据时间来制定滚动生成新的日志文件。
+            SizeAndTimeBasedRollingPolicy，是TimeBasedRollingPolicy 的子类，可以设置滚动文件的最大尺寸 maxFileSize，请跟踪源码查看相关配置属性
+        -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--
+                滚动时产生的文件的存放位置及文件名称。
+                %d{yyyy-MM-dd}：按天进行日志滚动 %i：当当前记录日志文件文件大小超过 maxFileSize 时，按照i(自然数)进行文件滚动；同理，使用 %d{yyyy-MM-dd_HH-mm}格式按分钟进行滚动切分
+            -->
+            <fileNamePattern>${LOG_HOME}/${APP_NAME}-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <!-- each file should be at most 10MB, keep 60 days worth of history, but at most 1GB   -->
+            <maxHistory>30</maxHistory>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <!-- 日志输出格式： -->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} --文件输出-- [ %thread ] - [ %-5level ] [ %logger{50} : %line ] - %msg%n</pattern>
+        </layout>
+    </appender>
+
+
+    <!--配置syslog 日志-->
+    <appender name="syslog" class="ch.qos.logback.classic.net.SyslogAppender">
+        <syslogHost>127.0.0.1</syslogHost>
+        <facility>LOCAL1</facility>
+        <port>514</port>
+        <suffixPattern>[%thread] %logger %msg</suffixPattern>
+    </appender>
+
+    <!--
+        logger 节点 用来设置某一个包或者具体的某一个类的日志打印级别,其配置有:
+            name属性配置包或类路径
+            可选的level,设置name配置的范围中的打印级别
+            可选的 additivity 属性,表示是否向上级传递打印信息，默认为true。比如在控制台输出的情况下，root节点设置控制台打印，logger又设置控制台打印，则你会在控制台看到相同的两条输出
+            再比如，测试发现，root节点设置控制台打印warn级别，logger只设置打印文件的debug级别，这由于传递特性，会导致在控制台打印debug级别的信息，这是级别传递的影响
+            具体输出规律,请手动测试
+          任何一个类只会和一个logger对应，
+            要么是定义的logger，要么是root，判断的关键在于找到这个logger，然后判断这个logger的appender和level
+    -->
+    <!--情况① ：logger不指定级别，不指定appender-ref，也不设置additivity属性。
+        形如：
+          <logger name="one.unit.log" />
+        由于root与logger是父子关系，而logger没有特别定义，则默使用 root定义，所以
+        level继承root节点的level级别
+        未设置appender-ref ，则该节点本身并不支持日志打印
+        additivity 默认为true,向上传递，由于该logger本身不支持打印，也就没有打印信息向上传递，所以，这种配置其实和不写该节点没啥区别，测试结论也支持该判断
+        所以，这也就仅限于探究测试，配置该节点的作用本来就是针对某个包或类的特出打印需求，你还啥都不配置空写，脑子没毛病？
+         <logger name="one.unit.log" >
+        </logger>
+        -->
+
+    <!--情况② ：logger不指定级别，只指定appender-ref，也不设置 additivity 属性,root节点不指定appender-ref，只指定级别
+        形如：
+          <logger name="one.unit.log" >
+                  <appender-ref ref="rollingFile"/>
+        </logger>
+         <root level="warn">
+        </root>
+        那么，理论分析下，则两者一合计，其实就相当于，只不过，因为name的限定，只会打印one.unit.log包下的日志
+        因为单独的  root 节点无法限制具体的包输出级别
+         <root level="warn">
+            <appender-ref ref="rollingFile"/>
+        </root>
+        -->
+    <!--自行测试。。。相关输出-->
+    <!--
+        一些结论：
+        由于root与logger是父子关系，没有特别定义则默认为继承root，如level、appender-ref信息等。
+        所以，additivity 开关就很重要，因为在root配置了全局日志打印的情况下，定义在logger中的打印如果向上传递的话，会造成重复打印，所以一般都配置additivity=false，
+        这样，作为差异化打印，logger就可以很方便的在全局配置之外，单独配置某某块或包下的输出目的、打印级别等
+        -->
+
+    <!-- 使用logback-spring.xml 配置文件名的好处：测试环境+开发环境. 多个使用逗号隔开. -->
+      <springProfile name="dev,test">
+          <logger name="one.unit.log" level="debug" >
+              <appender-ref ref="rollingFile"/>
+          </logger>
+      </springProfile>
+
+    <root level="warn">
+        <appender-ref ref="stdout"/>
+    </root>
+</configuration>
