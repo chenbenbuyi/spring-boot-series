@@ -52,7 +52,7 @@
         </dependencies>
     </dependencyManagement>
 
-    <!--引入一些公共组件供子模块继承，子模块不需要重复引入，只按需引入模块需要的依赖-->
+    <!--引入一些公共组件供子模块继承，子模块不需要重复引入 ，只按需引入模块需要的依赖-->
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
