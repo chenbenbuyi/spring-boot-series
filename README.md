@@ -1,2 +1,2 @@
 # spring-boot-series
-spring boot 瞎折腾
+spring boot 系列学些教程
