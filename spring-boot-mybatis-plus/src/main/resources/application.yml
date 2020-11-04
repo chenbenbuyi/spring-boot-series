@@ -25,8 +25,11 @@ spring:
        - "classpath:db/data.sql"
 
 
-
 mybatis-plus:
+  global-config:
+    db-config:
+      id-type: none
+
   configuration:
     # sql 打印
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
