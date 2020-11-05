@@ -32,6 +32,7 @@ public class MyBatisPlusCodeGenerator {
      * 代码生成器
      */
     public static void main(String[] args) {
+        String modePath = "/spring-boot-mybatis-plus";
         AutoGenerator mpg = new AutoGenerator();
 
         /**
@@ -41,7 +42,7 @@ public class MyBatisPlusCodeGenerator {
         gc.setAuthor("博客园：陈本布衣");
         // 获取程序当前路径后再设置输出路径
         String projectPath = System.getProperty("user.dir");
-        gc.setOutputDir(projectPath + "/src/main/java");
+        gc.setOutputDir(projectPath + modePath+"/src/main/java");
         // 是否覆盖同名文件  默认false  是否打开输出目录 默认true
         gc.setFileOverride(false).setOpen(false);
         // 实体命名方式 %s 为占位符
@@ -62,6 +63,7 @@ public class MyBatisPlusCodeGenerator {
         dsc.setDbType(DbType.MYSQL);
 //        dsc.setUrl("jdbc:sqlite:D:\\Software\\db\\test.db"); sqlite 文件数据库
 //        dsc.setDriverName("org.sqlite.JDBC");
+        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUrl("jdbc:mysql://localhost:3306/hello-boot?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=Asia/Shanghai");
         dsc.setSchemaName("public");
         dsc.setUsername("root");
@@ -99,12 +101,10 @@ public class MyBatisPlusCodeGenerator {
         // 数据库字段下划线转序代码驼峰命名
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);
-        strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
+        strategy.setInclude(scanner("请输入表名，多表用英文逗号分割").split(","));
         // 驼峰转连字符
         strategy.setControllerMappingHyphenStyle(true);
         //表和前缀处理
-        String[] tablePre = new String[]{"one_"};
-        strategy.setTablePrefix(tablePre);
         mpg.setStrategy(strategy);
 
         mpg.execute();

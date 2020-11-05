@@ -28,8 +28,13 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
         </dependency>
+        <!--MyBatis-Plus 支持 Velocity（默认）、Freemarker、Beetl等 以下引入的模板引擎三选一即可-->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+        </dependency>
 
-        <!--注意不同版本驱动名的变化：
+        <!--注意 mysql 不同版本驱动名的变化：
          com.mysql.jdbc.Driver 是 mysql-connector-java 5中的，
          com.mysql.cj.jdbc.Driver 是 mysql-connector-java 6中的 JDBC连接Mysql6 com.mysql.cj.jdbc.Driver 需要指定时区 serverTimezone:
          -->
