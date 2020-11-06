@@ -28,7 +28,9 @@ spring:
 mybatis-plus:
   global-config:
     db-config:
-      id-type: none
+      id-type: auto
+   # 配置mybatis-plus 扫描枚举类的包路径
+  type-enums-package: cnblogs.chenbenbuyi.enums
 
   configuration:
     # sql 打印

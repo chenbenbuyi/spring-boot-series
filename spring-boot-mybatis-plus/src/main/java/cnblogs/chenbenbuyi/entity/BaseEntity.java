@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
 /**
@@ -14,7 +13,6 @@ import java.time.LocalDateTime;
  */
 @Data
 public class BaseEntity<T extends Model<?>> extends Model<T> {
-
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;

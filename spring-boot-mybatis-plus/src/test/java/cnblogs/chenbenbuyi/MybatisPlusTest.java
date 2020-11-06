@@ -1,7 +1,12 @@
 package cnblogs.chenbenbuyi;
 
 import cnblogs.chenbenbuyi.entity.UserEntity;
+import cnblogs.chenbenbuyi.enums.Sex;
 import cnblogs.chenbenbuyi.service.IUserService;
+import com.fasterxml.jackson.core.JsonEncoding;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @date: 2020/11/3 15:48
@@ -34,8 +38,8 @@ public class MybatisPlusTest {
     }
 
     @Test
-    public void testInsert() {
-        UserEntity user = UserEntity.builder().username("陈本布衣").password("xxxxxx").desc("暂无备注信息").build();
+    public void testInsert(){
+        UserEntity user = UserEntity.builder().username("陈本布衣").sex(Sex.MALE).password("xxxxxx").desc("暂无备注信息").build();
         boolean result = userService.saveOrUpdate(user);
         Assert.assertTrue(result);
         log.info("新增数据：{}", user);
