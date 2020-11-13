@@ -3,7 +3,6 @@ package cnblogs.chenbenbuyi.entity;
 import cnblogs.chenbenbuyi.enums.Sex;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +23,9 @@ public class UserEntity extends BaseEntity<UserEntity> {
     private String username;
     private Sex sex;
     private String password;
-
+    /**
+     * 处理字段名字避开关键字
+     */
     @TableField(value = "`desc`")
     private String desc;
 }

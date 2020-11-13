@@ -39,9 +39,9 @@ public class MybatisPlusTest {
 
     @Test
     public void testInsert(){
-        UserEntity user = UserEntity.builder().username("陈本布衣").sex(Sex.MALE).password("xxxxxx").desc("暂无备注信息").build();
-        boolean result = userService.saveOrUpdate(user);
-        Assert.assertTrue(result);
-        log.info("新增数据：{}", user);
+//        UserEntity user = UserEntity.builder().username("陈本布衣").sex(Sex.MALE).password("xxxxxx").desc("暂无备注信息").build();
+//        boolean result = userService.saveOrUpdate(user);
+//        Assert.assertTrue(result);
+//        log.info("新增数据：{}", user);
     }
 }

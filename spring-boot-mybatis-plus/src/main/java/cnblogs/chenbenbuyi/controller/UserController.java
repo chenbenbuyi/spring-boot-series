@@ -2,6 +2,7 @@ package cnblogs.chenbenbuyi.controller;
 
 import cnblogs.chenbenbuyi.common.Result;
 import cnblogs.chenbenbuyi.entity.UserEntity;
+import cnblogs.chenbenbuyi.enums.Sex;
 import cnblogs.chenbenbuyi.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,15 @@ public class UserController {
     /**
      *  测试枚举值的保存和页面数据响应
      */
+    @PostMapping("/enum")
+    @ResponseBody
+    public Result<Sex> saveEnum(Sex sex) {
+        return Result.ok(sex);
+    }
+
+    /**
+     *  测试枚举值的保存和页面数据响应
+     */
     @PostMapping("/save")
     @ResponseBody
     public Result<UserEntity> save(UserEntity user) {
@@ -37,4 +47,13 @@ public class UserController {
         return Result.ok(user);
     }
 
+    /**
+     *  测试枚举值的保存和页面数据响应
+     */
+    @PostMapping("/save2")
+    @ResponseBody
+    public Result<UserEntity> save2(@RequestBody UserEntity user) {
+        userService.saveOrUpdate(user);
+        return Result.ok(user);
+    }
 }

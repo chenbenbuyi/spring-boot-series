@@ -31,7 +31,6 @@ mybatis-plus:
       id-type: auto
    # 配置mybatis-plus 扫描枚举类的包路径
   type-enums-package: cnblogs.chenbenbuyi.enums
-
   configuration:
     # sql 打印
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

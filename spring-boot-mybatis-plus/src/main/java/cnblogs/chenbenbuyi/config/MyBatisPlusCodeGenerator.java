@@ -61,7 +61,7 @@ public class MyBatisPlusCodeGenerator {
          */
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setDbType(DbType.MYSQL);
-//        dsc.setUrl("jdbc:sqlite:D:\\Software\\db\\test.db"); sqlite 文件数据库
+//        dsc.setUrl("jdbc:sqlite:D:\\db\\test.db"); sqlite 文件数据库
 //        dsc.setDriverName("org.sqlite.JDBC");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUrl("jdbc:mysql://localhost:3306/hello-boot?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=Asia/Shanghai");
