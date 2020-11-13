@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * 这种情况下，除了针对数据库的存储数据 0 或 1 ，还需要响应到前端的数据是经过格式化的，否则枚举的描述信息就毫无意义。
  * 幸运的是，由于我们前后端交互基本都是采用json格式，而Spring boot 默认json处理框架 jackson的 @JsonValue 注解很容易帮助我们将期望的响应格式信息响应到前端
  * 使用方式也很简单：直接在枚举显示字段上的标注该注解即可
- *
+ * 参考：https://www.cnblogs.com/yumiaoxia/p/10414212.html
  * 参考：https://blog.csdn.net/alinyua/article/details/86383254?utm_medium=distribute.pc_aggpage_search_result.none-task-blog-2~all~baidu_landing_v2~default-5-86383254.nonecase&utm_term=springboot%20%E6%8E%A5%E6%94%B6%E6%9E%9A%E4%B8%BE&spm=1000.2123.3001.4430
  */
 
