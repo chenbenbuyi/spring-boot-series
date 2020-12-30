@@ -17,6 +17,7 @@ import java.util.Objects;
 @Configuration
 /** Swagger 配置类
  *  开启Swagger 自动配置 .有了改注解其实启动该项目访问就已经有swagger界面了，表示集成OK,只是缺少详细配置和需要访问的API
+ *  访问地址：http://localhost:81/swagger-ui.html
  */
 @EnableSwagger2
 public class SwaggerConfig {

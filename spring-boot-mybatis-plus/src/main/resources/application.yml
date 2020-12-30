@@ -10,7 +10,7 @@ spring:
       # MySQL在高版本需要指明是否进行SSL连接 ，通常不需要的话设置 useSSL=false 来显式禁用SSL连接
     url: jdbc:mysql://localhost:3306/hello-boot?useUnicode=true&useSSL=false&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
       # The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
-      # 基于SPI(服务发现机制)，在ClassPath路径下的META-INF/services文件夹查找文件，可以自动加载文件里所定义的类 所以，当你引入了mysql-connector-java的驱动包后，是你不需要再显示的配置 driver-class-name: com.mysql.cj.jdbc.Driver
+      # 基于SPI(服务发现机制)，在ClassPath路径下的META-INF/services文件夹查找文件，可以自动加载文件里所定义的类 所以，当你引入了mysql-connector-java的驱动包后，是不需要再显示的配置 driver-class-name: com.mysql.cj.jdbc.Driver
     # driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
         idle-timeout: 50000
