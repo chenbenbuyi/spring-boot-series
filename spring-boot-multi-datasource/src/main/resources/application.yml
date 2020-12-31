@@ -1,0 +1,35 @@
+server:
+  port: 82
+
+spring:
+  datasource:
+    # spring boot 2.0开始默认支持的数据源连接池，可不配置，除非要使用自定义的如 com.alibaba.druid.pool.DruidDataSource进行替换
+    type: com.zaxxer.hikari.HikariDataSource
+    dynamic:
+      # 设置默认数据库，即项目中不用显示指定数据库源时使用的数据库
+      primary: test1
+      hikari:
+        max-pool-size:
+      datasource:
+        # 以下即为配置的不同的数据源
+        db1:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/hello-boot?useUnicode=true&useSSL=false&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+          username: root
+          password:
+          initialization-mode: always
+          schema:
+             - "classpath:db/schema.sql"
+          data:
+             - "classpath:db/data.sql"
+
+        db2:
+          driver-class-name: org.sqlite.JDBC
+          url: jdbc:sqlite:D:\Software\NewSVN\MS\EM-N\VPN\IPSec-H\trunk\IPSec-H\db\log.db
+          initialization-mode: always
+          schema:
+             - "classpath:db/schema.sql"
+          data:
+             - "classpath:db/data.sql"
+
+

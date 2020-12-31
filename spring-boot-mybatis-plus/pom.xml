@@ -17,12 +17,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!--MyBatis-Plus 集成starter-->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
-
         <!--MyBatis-Plus 代码生成器  MyBatis-Plus 从 3.0.3 之后移除了代码生成器与模板引擎的默认依赖，所以这里必须需要手动添加相关依赖-->
         <dependency>
             <groupId>com.baomidou</groupId>

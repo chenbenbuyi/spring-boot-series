@@ -12,5 +12,12 @@
 
     <artifactId>common</artifactId>
 
+    <dependencies>
+        <!--MyBatis-Plus 集成starter-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

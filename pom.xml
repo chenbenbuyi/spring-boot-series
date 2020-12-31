@@ -35,7 +35,12 @@
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
-
+            <!--MyBatis-Plus 集成starter-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus-verion}</version>
+            </dependency>
             <!--MyBatis-Plus 集成starter-->
             <dependency>
                 <groupId>com.baomidou</groupId>
