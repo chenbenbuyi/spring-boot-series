@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>spring-boot-log</artifactId>
     <description>测试日志实现和各种日志框架的切换</description>
+    <name>日志模块</name>
 
 
 </project>
