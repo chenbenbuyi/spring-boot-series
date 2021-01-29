@@ -1,8 +1,13 @@
 package cnblogs.chenbenbuyi.controller;
 
 import cnblogs.chenbenbuyi.common.Result;
+import cnblogs.chenbenbuyi.entity.UserEntity;
+import cnblogs.chenbenbuyi.service.Db1Service;
+import cnblogs.chenbenbuyi.service.Db2Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -10,20 +15,33 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
- * @date: 2020/12/31 14:04
+ * @date: 2021/1/29 14:33
  * @author: chen
- * @desc:
  */
 @RestController
-public class Db1Controller {
+@RequestMapping("/index")
+public class IndexController {
 
-    /**
-     *  注入数据源对象进行查验
-     */
     @Resource
     DataSource dataSource;
+
+    @Autowired
+    Db1Service db1Service;
+    @Autowired
+    Db2Service db2Service;
+
+    @GetMapping("/db1")
+    public Result<List<UserEntity>> db1() {
+        return Result.ok(db1Service.list());
+    }
+
+    @GetMapping("/db2")
+    public Result<List<UserEntity>> db2() {
+        return Result.ok(db2Service.list());
+    }
 
     @GetMapping
     public Result index() {

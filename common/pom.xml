@@ -9,6 +9,7 @@
     </parent>
     <description>所有模块引用的公共组件</description>
     <modelVersion>4.0.0</modelVersion>
+    <name>公共模块</name>
 
     <artifactId>common</artifactId>
 

@@ -7,29 +7,29 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     dynamic:
       # 设置默认数据库，即项目中不用显示指定数据库源时使用的数据库
-      primary: test1
-      hikari:
-        max-pool-size:
+      primary: db1
       datasource:
-        # 以下即为配置的不同的数据源
+        # 以下分别配置的两个不同的数据源示例： mysql 和 sqlite
         db1:
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: jdbc:mysql://localhost:3306/hello-boot?useUnicode=true&useSSL=false&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
           username: root
           password:
-          initialization-mode: always
+          hikari:
+            idle-timeout: 50000
+            connection-timeout: 5000
+            minimum-idle: 5
           schema:
              - "classpath:db/schema.sql"
           data:
-             - "classpath:db/data.sql"
+             - "classpath:db/data_mysql.sql"
 
         db2:
           driver-class-name: org.sqlite.JDBC
-          url: jdbc:sqlite:D:\Software\NewSVN\MS\EM-N\VPN\IPSec-H\trunk\IPSec-H\db\log.db
-          initialization-mode: always
+          url: jdbc:sqlite:D:\test.db
           schema:
-             - "classpath:db/schema.sql"
+             - "classpath:db/schema_sqlite.sql"
           data:
-             - "classpath:db/data.sql"
+             - "classpath:db/data_sqlite.sql"
 
 
