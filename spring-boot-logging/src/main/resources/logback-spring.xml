@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <property name="LOG_HOME" value="D://log"/>
+    <property name="APP_NAME" value="spring-boot-series"/>
+    <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} -- [ %thread ] - [ %-5level ] [ %logger{50} : %line ] - %msg%n"/>
+
+
+    <!--输出控制台-->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} --默认格式--[%thread] %-5level %logger{50} - %msg%n</pattern>
+            <springProfile name="dev">
+                <pattern>${PATTERN}</pattern>
+            </springProfile>
+            <springProfile name="prod">
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} --生产日志-- [%thread] %-5level %logger{50} - %msg%n</pattern>
+            </springProfile>
+        </layout>
+    </appender>
+
+    <!-- 滚动记录文件 -->
+    <appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${APP_NAME}.log</file>
+        <!--
+            TimeBasedRollingPolicy： 时间滚动策略，它根据时间来制定滚动生成新的日志文件。
+            SizeAndTimeBasedRollingPolicy，是TimeBasedRollingPolicy 的子类，可以设置滚动文件的最大尺寸 maxFileSize，请跟踪源码查看相关配置属性
+        -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--
+                滚动时产生的文件的存放位置及文件名称。
+                %d{yyyy-MM-dd}：按天进行日志滚动 %i：当当前记录日志文件文件大小超过 maxFileSize 时，按照i(自然数)进行文件滚动；同理，使用 %d{yyyy-MM-dd_HH-mm}格式按分钟进行滚动切分
+            -->
+            <fileNamePattern>${LOG_HOME}/${APP_NAME}-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <!-- each file should be at most 10MB, keep 60 days worth of history, but at most 1GB   -->
+            <maxHistory>30</maxHistory>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <!-- 日志输出格式： -->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} --文件输出-- [ %thread ] - [ %-5level ] [ %logger{50} : %line ] - %msg%n</pattern>
+        </layout>
+        <!--如果只是想要 Info 级别的日志，只是过滤 info 还是会输出 Error 日志，因为 Error 的级别高，
+      所以我们使用下面的策略，可以避免输出 Error 的日志-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!--过滤 Error-->
+            <level>error</level>
+            <!--匹配到就禁止-->
+            <onMatch>DENY</onMatch>
+            <!--没有匹配到就允许-->
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+
+    <!--配置syslog 日志-->
+    <appender name="syslog" class="ch.qos.logback.classic.net.SyslogAppender">
+        <syslogHost>127.0.0.1</syslogHost>
+        <facility>LOCAL1</facility>
+        <port>514</port>
+        <suffixPattern>%msg</suffixPattern>
+    </appender>
+
+    <!-- 使用logback-spring.xml 配置文件名的好处：测试环境+开发环境. 多个使用逗号隔开. -->
+   <!-- <springProfile name="dev,test">
+        <logger name="one.unit.log" level="debug" >
+            <appender-ref ref="rollingFile"/>
+        </logger>
+    </springProfile>-->
+
+    <root level="info">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="rollingFile"/>
+    </root>
+</configuration>

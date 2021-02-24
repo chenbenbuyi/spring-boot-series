@@ -18,7 +18,7 @@
 >异常抛出：
 > java.lang.IllegalArgumentException: argument type mismatch (Java程序层面)
 > Data truncation: Out of range value for column 'id' at row 1; (数据库层面)
->原因：两种异常抛出的根源大致相同——MyBatis-Plus(MP)主键默认生成策略为雪花算法，会生成全局唯一但又变态大的id，通常Long以下的数据类型是无法存的 ps:这里要厘清系统中有两个地方的Id增长策略：
+>原因：两种异常抛出的根源大致相同——MyBatis-Plus(MP)主键默认生成策略为雪花算法,即IdType.ASSIGN_ID策略（自3.3.0起），会生成全局唯一但又变态大的id，通常Long以下的数据类型是无法存的 ps:这里要厘清系统中有两个地方的Id增长策略：
 一个是应用程序本身的映射模型(如UserEntity)数据初始化时的字段生成策略，如持久层框架的主键生成策略、自定义的生成策略(如随机数)等，一个是数据库自身的主键生成策略，是次序自增还是靠程序插入等
 >解决：根据上面的思想，问题很好解决，有几种思路
 > 将就MP默认的主键生成策略，更改自己的数据模型的字段类型为Long，数据库相应的需要更改位比较大的BIGINT类型；当然，一般小系统，无意义而且存储空间过大的id，相比不会这么干

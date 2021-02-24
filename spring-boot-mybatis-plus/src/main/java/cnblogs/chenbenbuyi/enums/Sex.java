@@ -33,6 +33,8 @@ public enum Sex implements IEnum{
      * @EnumValue 当实体类的属性是普通枚举，且是其中一个字段，使用该注解来标注枚举类里的属性的对应字段
      * ps:没有 @EnumValue 完全并不影响 Spring MVC 接受页面枚举字面量的值，但是影响数据库和枚举字段映射
      * {@link EnumValue} 参见其注释
+     * 注意：测试表明，改注解需要配置mybatis-plus的包扫描路径才能生效 ，如本程序示例中的：
+     * type-enums-package: cnblogs.chenbenbuyi.enums
      */
     @EnumValue
     private int code;

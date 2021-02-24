@@ -1,0 +1,29 @@
+server:
+  port: 83
+
+# 默认情况下，Spring Boot会用Logback来记录日志，并用INFO级别输出到控制台。从控制台的启动输出就能看出来，级别的格式为 日期 级别 进程ID --[线程名] 日志输出的类名 日志内容
+# 通常情况下便于管理是自定义配置文件，只要是在资源文件夹目录（resources）下，logback.xml，logback-spring.xml等命名都能自动识别。要自定义其它命名或其它路径可以配置通过logging.config配置
+# 但是Spring Boot官方推荐优先使用带有-spring的文件名作为你的日志配置（如logback-spring.xml或log4j2-spring.xml等，而不是logback.xml）
+# 命名为logback-spring.xml的日志配置文件，spring boot可以为它添加一些spring boot特有的配置，如本项目示例中的 springProfile节点（非xxx-spring.xml 命名如果添加了形如 springProfile的特性节点启动会报错）
+#根据不同的日志系统，可以按照如下的日志配置文件名就能够被正确加载
+#Logback：logback-spring.xml, logback-spring.groovy, logback.xml, logback.groovy
+#Log4j：log4j-spring.properties, log4j-spring.xml, log4j.properties, log4j.xml
+#Log4j2：log4j2-spring.xml, log4j2.xml
+#JDK (Java Util Logging)：logging.properties
+
+
+logging:
+  level:
+#    root: debug
+  # 支持package级别的日志级别调整，格式为：logging.level.xxx=xxx指定具体包结构的日志打印级别(cnblogs.chenbenbuyi.service 包日志级别为 warn，经测试，该配置项会覆盖日志配置文件中的配置)
+    cnblogs.chenbenbuyi.service: error
+  # 配置输出路径，日志默认文件名 spring.log  file.path 和 file.name 只会有一个生效 If you want to write log files in addition to the console output you need to set a logging.file or logging.path property
+  file:
+    path: D:\log
+#    max-size: 10M # 默认就是10M
+    # name: 日志文件名
+  pattern:
+    # 自定义输出内容格式 控制台 文件等
+    console: "%d{yyyy-MM-dd HH:mm:ss}-- yml中控制台日志格式-- [%thread] %-5level %logger{50} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss}----- yml文件日志输出格式-- [%thread] %-5level %logger{50} - %msg%n"
+

@@ -6,9 +6,11 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
 -->
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
     <!-- 定义日志的根目录 如果不写或书写目录不正确，则会将日志记录到项目运行的根路径   建议写绝对路径  -->
-    <property name="LOG_HOME" value="D:/java/log"/>
+    <property name="LOG_HOME" value="D://log"/>
     <!-- 定义日志文件名称  你可以看到，类似的公共属性都可以这样定义，在文件中使用-->
     <property name="APP_NAME" value="spring-boot-series"/>
+    <!-- 定义输出格式-->
+    <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} --输出格式公用-- [ %thread ] - [ %-5level ] [ %logger{50} : %line ] - %msg%n"/>
 
     <!-- appender用来格式化日志输出节点，有俩个属性 name和class，name指定的名字在root或logger的 appender-ref 节点中被引用，class用来指定哪种输出策略，常用就是控制台输出策略(ConsoleAppender)和文件滚动输出策略(RollingFileAppender)-->
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
@@ -31,6 +33,10 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
                 <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} --生产日志-- [%thread] %-5level %logger{50} - %msg%n</pattern>
             </springProfile>
         </layout>
+        <!--过滤器，过滤到指定的级别才会输出-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
     </appender>
 
     <!-- 滚动记录文件 -->
@@ -55,6 +61,19 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} --文件输出-- [ %thread ] - [ %-5level ] [ %logger{50} : %line ] - %msg%n</pattern>
         </layout>
+        <!--如果只是想要 Info 级别的日志，只是过滤 info 还是会输出 Error 日志，因为 Error 的级别高，所以我们使用下面的策略，可以避免输出 Error 的日志-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!--过滤 Error-->
+            <level>error</level>
+            <!--匹配到就禁止-->
+            <onMatch>DENY</onMatch>
+            <!--没有匹配到就允许-->
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
     </appender>
 
 
@@ -62,8 +81,8 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
     <appender name="syslog" class="ch.qos.logback.classic.net.SyslogAppender">
         <syslogHost>127.0.0.1</syslogHost>
         <facility>LOCAL1</facility>
-        <port>514</port>
-        <suffixPattern>[%thread] %logger %msg</suffixPattern>
+        <port>5140</port>
+        <suffixPattern>%msg</suffixPattern>
     </appender>
 
     <!--
@@ -110,11 +129,11 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
         -->
 
     <!-- 使用logback-spring.xml 配置文件名的好处：测试环境+开发环境. 多个使用逗号隔开. -->
-      <springProfile name="dev,test">
-          <logger name="one.unit.log" level="debug" >
-              <appender-ref ref="rollingFile"/>
-          </logger>
-      </springProfile>
+    <springProfile name="dev,test">
+        <logger name="one.unit.log" level="debug" >
+            <appender-ref ref="rollingFile"/>
+        </logger>
+    </springProfile>
 
     <root level="warn">
         <appender-ref ref="stdout"/>

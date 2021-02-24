@@ -1,7 +1,9 @@
 package cnblogs.chenbenbuyi.entity;
 
 import cnblogs.chenbenbuyi.enums.Gender;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +21,7 @@ import lombok.NoArgsConstructor;
 @TableName("one_user")
 public class UserEntity extends BaseEntity<UserEntity> {
 
+    @TableId(type = IdType.AUTO)
     private Long id;
     private String username;
 //    private Sex sex;

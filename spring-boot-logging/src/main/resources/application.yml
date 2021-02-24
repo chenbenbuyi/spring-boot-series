@@ -1,0 +1,18 @@
+server:
+  port: 83
+
+logging:
+  level:
+#    root: debug
+  # 支持package级别的日志级别调整，格式为：logging.level.xxx=xxx指定具体包结构的日志打印级别(cnblogs.chenbenbuyi.service 包日志级别为 warn，经测试，该配置项会覆盖日志配置文件中的配置)
+    cnblogs.chenbenbuyi.service: error
+  # 配置输出路径，日志默认文件名 spring.log  file.path 和 file.name 只会有一个生效 If you want to write log files in addition to the console output you need to set a logging.file or logging.path property
+  file:
+    path: D:\log
+#    max-size: 10M # 默认就是10M
+    # name: 日志文件名
+  pattern:
+    # 自定义输出内容格式 控制台 文件等
+    console: "%d{yyyy-MM-dd HH:mm:ss}-- yml中控制台日志格式-- [%thread] %-5level %logger{50} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss}----- yml文件日志输出格式-- [%thread] %-5level %logger{50} - %msg%n"
+
