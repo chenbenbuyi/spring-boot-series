@@ -5,14 +5,30 @@ scanPeriod：设置监测配置文件是否有修改的时间间隔，如果没�
 debug：当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。
 -->
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!--
+      property 节点 标记一个上下文变量，属性有name和value，定义变量之后可以使用${}来获取。
+    -->
+
     <!-- 定义日志的根目录 如果不写或书写目录不正确，则会将日志记录到项目运行的根路径   建议写绝对路径  -->
     <property name="LOG_HOME" value="D://log"/>
     <!-- 定义日志文件名称  你可以看到，类似的公共属性都可以这样定义，在文件中使用-->
-    <property name="APP_NAME" value="spring-boot-series"/>
+    <property name="APP_NAME" value="spring-boot-logging"/>
     <!-- 定义输出格式-->
     <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} --输出格式公用-- [ %thread ] - [ %-5level ] [ %logger{50} : %line ] - %msg%n"/>
 
-    <!-- appender用来格式化日志输出节点，有俩个属性 name和class，name指定的名字在root或logger的 appender-ref 节点中被引用，class用来指定哪种输出策略，常用就是控制台输出策略(ConsoleAppender)和文件滚动输出策略(RollingFileAppender)-->
+    <!-- appender用来格式化日志输出节点，有俩个属性 name和class，name指定的名字在root或logger的 appender-ref 节点中被引用，class用来指定哪种输出策略，常用就是控制台输出策略(ConsoleAppender)和文件滚动输出策略(RollingFileAppender)
+        通常的日志文件需要定义三个appender，分别是控制台输出，常规日志文件输出，异常日志文件输出
+
+        该节点有几个重要的子节点，如下：
+
+        filter：日志输出拦截器，没有特殊定制一般使用系统自带的即可，但是如果要将日志分开，比如将ERROR级别的日志输出到一个文件中，将除了ERROR级别的日志输出到另外一个文件中，此时就要拦截ERROR级别的日志了。
+        encoder：和pattern节点组合用于具体输出的日志格式和编码方式。
+        file: 节点用来指明日志文件的输出位置，可以是绝对路径也可以是相对路径
+        rollingPolicy: 日志回滚策略，在这里我们用了TimeBasedRollingPolicy，基于时间的回滚策略,有以下子节点fileNamePattern，必要节点，可以用来设置指定时间的日志归档。
+        maxHistory : 可选节点，控制保留的归档文件的最大数量，超出数量就删除旧文件,，例如设置为30的话，则30天之后，旧的日志就会被删除
+        totalSizeCap: 可选节点，用来指定日志文件的上限大小，例如设置为3GB的话，那么到了这个值，就会删除旧的日志
+
+    -->
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <!--
         日志输出格式：
@@ -24,7 +40,7 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
 			%n是换行符
         -->
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} --控制台--[%thread] %-5level %logger{50} - %msg%n</pattern>
+            <pattern>${PATTERN}</pattern>
             <!--  如果该日志文件名为 logback-spring.xml  就可以使用spring的Profile功能，如下配置不同环境的输出不同的日志打印格式-->
             <springProfile name="dev">
                 <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} --开发日志-- [%thread] ---> %-5level %logger{50} - %msg%n</pattern>
@@ -33,7 +49,7 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
                 <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} --生产日志-- [%thread] %-5level %logger{50} - %msg%n</pattern>
             </springProfile>
         </layout>
-        <!--过滤器，过滤到指定的级别才会输出-->
+        <!--过滤器，只有过滤到指定级别的日志信息才会输出，如果level为ERROR，那么控制台只会输出ERROR日志-->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ERROR</level>
         </filter>
@@ -41,6 +57,10 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
 
     <!-- 滚动记录文件 -->
     <appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--日志名称，如果没有File 属性，那么只会使用FileNamePattern的文件路径规则
+          如果同时有<File>和<FileNamePattern>，那么当天日志是<File>，明天会自动把今天
+          的日志改名为今天的日期。即，<File> 的日志都是当天的。
+      -->
         <file>${LOG_HOME}/${APP_NAME}.log</file>
         <!--
             TimeBasedRollingPolicy： 时间滚动策略，它根据时间来制定滚动生成新的日志文件。
@@ -53,7 +73,7 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
             -->
             <fileNamePattern>${LOG_HOME}/${APP_NAME}-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
             <!-- each file should be at most 10MB, keep 60 days worth of history, but at most 1GB   -->
-            <maxHistory>30</maxHistory>
+            <maxHistory>60</maxHistory>
             <maxFileSize>10MB</maxFileSize>
             <totalSizeCap>1GB</totalSizeCap>
         </rollingPolicy>
@@ -70,6 +90,7 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
             <!--没有匹配到就允许-->
             <onMismatch>ACCEPT</onMismatch>
         </filter>
+        <!--日志输出编码和格式化-->
         <encoder>
             <charset>UTF-8</charset>
             <pattern>${PATTERN}</pattern>
@@ -86,12 +107,14 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
     </appender>
 
     <!--
-        logger 节点 用来设置某一个包或者具体的某一个类的日志打印级别,其配置有:
-            name属性配置包或类路径
+        logger 节点 用来设置某一个包或者具体的某一个类的日志打印级别,它将会覆盖root的输出级别，其配置有:
+            name 属性配置包或类路径
             可选的level,设置name配置的范围中的打印级别
             可选的 additivity 属性,表示是否向上级传递打印信息，默认为true。比如在控制台输出的情况下，root节点设置控制台打印，logger又设置控制台打印，则你会在控制台看到相同的两条输出
             再比如，测试发现，root节点设置控制台打印warn级别，logger只设置打印文件的debug级别，这由于传递特性，会导致在控制台打印debug级别的信息，这是级别传递的影响
             具体输出规律,请手动测试
+            additivity 可选，默认为true，将此logger的信息向上级传递，将有root节点定义日志打印。如果设置为false，将不会上传，此时需要定义一个appender-ref节点才会输出。
+
           任何一个类只会和一个logger对应，
             要么是定义的logger，要么是root，判断的关键在于找到这个logger，然后判断这个logger的appender和level
     -->
@@ -135,6 +158,14 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
         </logger>
     </springProfile>
 
+
+    <!--    定义指定package的日志级别-->
+    <logger name="cnblogs.chenbenbuyi.service" level="DEBUG"/>
+
+    <!--
+    这是一个必须节点，用来指定基础的日志级别，只有一个level属性，默认值是DEBUG。
+    该节点可以包含零个或者多个元素，子节点是appender-ref，标记这个appender将会添加到这个logger中。
+    -->
     <root level="warn">
         <appender-ref ref="stdout"/>
     </root>
