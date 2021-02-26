@@ -1,0 +1,6 @@
+server:
+  port: 84
+
+spring:
+  profiles:
+    active: @profile.active@

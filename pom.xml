@@ -13,6 +13,7 @@
         <module>spring-boot-mybatis-plus</module>
         <module>spring-boot-multi-datasource</module>
         <module>spring-boot-logging</module>
+        <module>spring-boot-profile</module>
     </modules>
 
     <properties>
@@ -23,6 +24,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <mybatis-plus-verion>3.4.0</mybatis-plus-verion>
+        <!--编译导包字符集设置-->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <!--避免单继承问题，采用的一种依赖管理方式-->
@@ -34,12 +37,6 @@
                 <version>${spring.boot.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
-            </dependency>
-            <!--MyBatis-Plus 集成starter-->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus-verion}</version>
             </dependency>
             <!--MyBatis-Plus 集成starter-->
             <dependency>
@@ -98,28 +95,12 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <!-- 指定 main 方法类为全局的唯一入口 -->
-                    <mainClass>cnblogs.cnblogs.WebApplication</mainClass>
-                    <layout>ZIP</layout>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <!--把依赖的包都打包到生成的Jar包中-->
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <version>${spring.boot.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
