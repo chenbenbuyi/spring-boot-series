@@ -17,10 +17,7 @@
             <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
             <version>3.2.1</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+
         <!--多数据源配置：mysql驱动-->
         <dependency>
             <groupId>mysql</groupId>
