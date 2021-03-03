@@ -13,10 +13,10 @@
 
     <dependencies>
         <!--
-        在SpringBoot中，只要类路径上存在JSR-303的实现，如Hibernate Validator，就会自动开启Bean Validation验证功能，
+        在Spring Boot中，只要类路径上存在JSR-303规范的实现，如Hibernate Validator，就会自动开启Bean Validation验证功能，
         这里我们需要引入spring-boot-starter-validation的依赖（主要是为了引入 hibernate-validator 依赖），就能完成所需。Spring Boot的参数校验正是依赖于Hibernate Validator框架来进行。
         另外，不少网文都说引入了 web 的基础上不需要单独引入 spring-boot-starter-validation（或hibernate-validator），但自己实测并不确切
-        查证应该是 Spring Boot 版本升级到 2.3之后，web模块不在默认引入相关依赖了，需要按需自己手动引入
+        查证后找到原因，因为在 Spring Boot 版本升级到 2.3之后，web模块默认不在引入validation 的starter 依赖了，需要自己手动引入
         参见官方升级说明：https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.3-Release-Notes#validation-starter-no-longer-included-in-web-starters
         -->
         <dependency>
