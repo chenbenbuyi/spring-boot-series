@@ -1,5 +1,6 @@
 package cnblogs.chenbenbuyi.model;
 
+import cnblogs.chenbenbuyi.anno.ChenBenBuYi;
 import cnblogs.chenbenbuyi.common.UpdateValid;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,21 +16,21 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 public class Person {
 
-    @NotNull(message = "用户Id不能为空", groups = UpdateValid.class)
+    @NotNull( groups = UpdateValid.class)
     private Integer id;
 
-    @NotNull(message = "用户名不能为空哟")
-    @Size(min = 6, max = 12, message = "字符数必须在 6 -12 个")
+    @NotNull
+    @Size(min = 6, max = 12)
     private String name;
 
-    @NotNull
-    @Min(value = 20, message = "年轻最小20，不能再小了！")
+    @ChenBenBuYi(min = 3,max = 5)
     private Integer age;
 
     /**
      *   @Valid 用于嵌套校验，在这里也就会激活Address 对象内字段标注的校验
+     *   嵌套可以是单个对象也可以是集合，也就是说写成 List<Address> address 也是可以的
      */
-    @Valid
-    @NotNull(message = "地址信息不能为空")
-    private Address address;
+//    @Valid
+//    @NotNull
+//    private Address address;
 }

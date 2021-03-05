@@ -2,23 +2,17 @@ package cnblogs.chenbenbuyi.common;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @RestControllerAdvice 差不多可以理解为 全局异常注解 @ControllerAdvice 和 json响应注解 @ResponseBody 的结合
@@ -27,6 +21,14 @@ import java.util.Map;
 @Slf4j
 public class GlobalExceptionHandler {
 
+    /**
+     *  通常该处理器中会全局处理很多类型的异常，但基于MVC的软件架构，通常可分为进入控制器之前和之后两类异常来看
+     *  进入控制器之后，主要是业务处理和后端持久层抛出的异常，不太好总括，但进入控制器之前的异常通常却比较好概括，基本都是
+     *  javax.servlet.ServletException 类型异常的子异常，常见的如：
+     *  HttpRequestMethodNotSupportedException ，请求方法不支持，如以get方式请求post方法
+     *  HttpMediaTypeNotSupportedException ，如控制器参数有@RequestBody 注解，但是请求头 content-type 不是 application/json 就会抛出此异常
+     *  MissingServletRequestParameterException 缺少请求参数异常，比如数据实体需要的参数项缺少或完全没有参数等
+     */
 
     /**
      * 请求方式不支持
@@ -58,8 +60,10 @@ public class GlobalExceptionHandler {
      *  If the bean validation is failed, it will trigger a MethodArgumentNotValidException.
      *  不同的异常处理拦截方法，不能指定相同的异常，否则会抛出异常，例如：
      * java.lang.IllegalStateException: Ambiguous @ExceptionHandler method mapped for [class org.springframework.web.bind.MethodArgumentNotValidException]
-     *  但是，异常的继承关系，如何处理呢？
+     *  但是，异常的继承关系，如何处理呢？也就是两个异常处理方法，一个捕获的是父类异常，一类捕获的是子类异常，那么哪个异常处理方法会捕获异常呢？
      *
+     *  答案是：根据精准匹配原则，找那个关系最近的。抛出的异常有对应的异常处理器自然最好，若没有则找父类，以此往上
+     *  底层源码可以参见：{@link org.springframework.web.method.annotation.ExceptionHandlerMethodResolver#getMappedMethod}
      */
     @ExceptionHandler({BindException.class, MethodArgumentNotValidException.class, ConstraintViolationException.class})
     public Result argumentValidationHandler(Exception ex) {
