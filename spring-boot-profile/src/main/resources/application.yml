@@ -4,3 +4,17 @@ server:
 spring:
   profiles:
     active: @profile.active@
+
+
+# yml 配置文件语法
+
+# 对象
+user:
+  name: chenbenbuyi
+  age: 30
+
+# 数组
+arr:
+  - v1
+  - v2
+  - v3
