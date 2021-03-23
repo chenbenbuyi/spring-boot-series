@@ -8,4 +8,6 @@ ARG JAR_FILE
 ADD target/${JAR_FILE} ${JAR_FILE}
 
 # 执行启动命令
-# ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/docker.jar"]
+ENTRYPOINT ["java","-jar","docker.jar"]
+
+# 本文件仅是引子，具体Dockerfile的编写需根据业务打包镜像需求编写，才能构建起一个完整功能的镜像

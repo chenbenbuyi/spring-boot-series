@@ -15,7 +15,7 @@
     <build>
         <!--配置项目打包名字-->
         <finalName>spring-boot-profile</finalName>
-        <!--配置打包插件，-->
+        <!--配置打包插件，供拷贝的配置示例-->
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -39,6 +39,7 @@
         <resources>
             <!--排除配置文件-->
             <resource>
+                <!--默认资源文件位置-->
                 <directory>src/main/resources</directory>
                 <!--先排除所有的配置文件-->
                 <excludes>

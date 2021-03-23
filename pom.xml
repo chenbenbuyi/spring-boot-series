@@ -7,6 +7,7 @@
     <artifactId>chenbenbuyi</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <name>模块父级</name>
     <modules>
         <module>common</module>
         <module>spring-boot-swagger</module>
@@ -95,9 +96,18 @@
     <build>
         <plugins>
             <plugin>
+                <!--插件也是可以继承给子模块的，所以子模块并不需要单独引入插件，也不用指定resources位置，默认就是src/main/resources-->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring.boot.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <!--把依赖的包都打包到生成的Jar包中-->
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -115,15 +125,6 @@
             </plugin>
         </plugins>
 
-        <resources>
-            <resource>
-                <!-- mapper.xml 文件默认打包动作不会打包到类路劲下，添加include配置-->
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.xml</include>
-                </includes>
-            </resource>
-        </resources>
     </build>
 
 </project>
