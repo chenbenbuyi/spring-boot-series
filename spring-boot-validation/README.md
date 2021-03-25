@@ -14,7 +14,7 @@
 >　①为实体类中的参数或者对象添加相应的注解；
 >  ②在控制器层进行注解声明，或者手动调用校验方法进行校验；有两种校验参数方式：
           控制器方法标注 @Valid 触发对象类型入参校验（get请求直接在相应参数前添加校验规则，形如 @Min(1) Long id， @Validated 注解才支持），然后全局异常处理或直接在控制器通过BindingResult类型参数获取异常信息处理
-              手动调用对应API执行校验——Validation.buildDefault ValidatorFactory().getValidator().validate(xxx)
+          手动调用对应API执行校验——Validation.buildDefault ValidatorFactory().getValidator().validate(xxx)
 >  ③对异常进行处理。
     
 
