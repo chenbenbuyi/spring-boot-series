@@ -1,0 +1,22 @@
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml"   xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>国际化</h1>
+<hr>
+<a th:href="@{/language(lang='en_US')}">English</a> | <a th:href="@{/language(lang='zh_CN')}">中文</a>
+
+<br>
+<br>
+  <span th:text="#{message}"></span>
+<br>
+<br>
+ <span th:text="#{system.name}"></span>
+<br>
+<br>
+    <!--行内取值法，双中括号-->
+[[#{remember}]]
+</body>
+</html>

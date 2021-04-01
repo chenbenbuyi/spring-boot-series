@@ -19,6 +19,7 @@
         <module>spring-boot-docker</module>
         <module>spring-boot-redis</module>
         <module>spring-boot-excel</module>
+        <module>spring-boot-web</module>
     </modules>
 
     <properties>

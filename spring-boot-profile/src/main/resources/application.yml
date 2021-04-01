@@ -18,3 +18,17 @@ arr:
   - v1
   - v2
   - v3
+
+# 同文件多模块配置，用 --- 分割,在默认配置中激活即可
+
+---
+server:
+  port: 9999
+spring:
+  profiles: dev
+
+---
+server:
+  port: 5555
+spring:
+  profiles: prod

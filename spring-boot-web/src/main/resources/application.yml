@@ -1,0 +1,8 @@
+server:
+  port: 88
+spring:
+  thymeleaf:
+    cache: false
+    # 国际化语言文件的基础名——就是去掉语言和国家代码的文件名（需配置目录，默认就是在classpath下） 。在 MessageSourceAutoConfiguration 默认的基础名是 messages
+  messages:
+    basename: i18n/test

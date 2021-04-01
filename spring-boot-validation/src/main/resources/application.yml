@@ -1,2 +1,10 @@
 server:
   port: 85
+
+
+user:
+  username: chenbenbuyi
+  email: 123@463.com
+  age: ${random.int} # 占位符使用 举一反三
+  lists: [1,2,3,4,5]
+  maps: {k1: v1,k2: v2,k3: v3}
