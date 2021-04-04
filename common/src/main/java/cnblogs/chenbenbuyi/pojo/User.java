@@ -2,6 +2,8 @@ package cnblogs.chenbenbuyi.pojo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @date: 2020/10/28 17:25
  * @author: chen
@@ -9,7 +11,7 @@ import lombok.Data;
  */
 
 @Data
-public class User {
+public class User implements Serializable{
 
     public User(Long id) {
         this.id = id;

@@ -6,12 +6,13 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 /**
  * @author chen
- * @date 2021/3/30 22:02
+ * @date 2021/4/4 17:26
  */
 
-@SpringBootApplication
-public class WebApplication {
+@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+public class DubboProviderApplicatioin {
+
     public static void main(String[] args) {
-        SpringApplication.run(WebApplication.class, args);
+        SpringApplication.run(DubboProviderApplicatioin.class,args);
     }
 }

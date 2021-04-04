@@ -20,6 +20,8 @@
         <module>spring-boot-redis</module>
         <module>spring-boot-excel</module>
         <module>spring-boot-web</module>
+        <module>spring-boot-dubbo(provider)</module>
+        <module>spring-boot-dubbo(consumer)</module>
     </modules>
 
     <properties>
