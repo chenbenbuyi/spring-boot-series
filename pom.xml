@@ -22,6 +22,7 @@
         <module>spring-boot-web</module>
         <module>spring-boot-dubbo(provider)</module>
         <module>spring-boot-dubbo(consumer)</module>
+        <module>spring-boot-cache</module>
     </modules>
 
     <properties>

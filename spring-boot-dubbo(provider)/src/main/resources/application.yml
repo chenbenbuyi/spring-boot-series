@@ -3,8 +3,14 @@ server:
 dubbo:
   application:
     name: spring-boot-dubbo-provider
+  #  下面为将协议和地址分开的写法
+  # protocol: zookeeper
+  # registry:
+    # address: 127.0.0.1:2181
+    # address: 192.168.1.1:2181,192.168.1.2:2181    集群写法
   registry:
     address: zookeeper://127.0.0.1:2181
+    # 10 s 的超时时间 ，对于服务提供者和消费者都适用 ,也可以单独指定服务提供者和消费者的注册超时时间 dubbo.consumer.timeout或 dubbo.provider.timeout
     timeout: 10000
   scan:
     base-packages: cnblogs.chenbenbuyi.service

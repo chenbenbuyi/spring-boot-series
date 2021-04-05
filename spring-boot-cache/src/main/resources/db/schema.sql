@@ -1,0 +1,18 @@
+DROP TABLE IF EXISTS `one_user`;
+CREATE TABLE `one_user` (
+  `id` BIGINT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '主键',
+  `username` VARCHAR(20) NOT NULL UNIQUE COMMENT '用户名',
+  `password` VARCHAR(32) NOT NULL COMMENT '密码',
+  `sex` TINYINT NOT NULL COMMENT '性别',
+  `create_time` DATETIME NOT NULL DEFAULT NOW() COMMENT '创建时间',
+  `update_time` DATETIME NOT NULL DEFAULT NOW() COMMENT '上次更新时间',
+  `desc` VARCHAR(100) DEFAULT NULL COMMENT '描述'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Mybatis plus 测试用表';
+
+DROP TABLE IF EXISTS `one_department`;
+CREATE TABLE `one_department` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `name` varchar(255) DEFAULT NULL COMMENT '部门名字',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

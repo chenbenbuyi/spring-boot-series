@@ -3,7 +3,6 @@ package cnblogs.chenbenbuyi.enums;
 /**
  * @date: 2020/11/12 10:41
  * @author: chen
- * @desc:
  */
 public interface IEnum {
     /**
