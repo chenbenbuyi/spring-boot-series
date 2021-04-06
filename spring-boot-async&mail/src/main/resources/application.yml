@@ -1,0 +1,8 @@
+spring:
+  mail:
+    # 需要在邮箱设置中开启SMTP服务并获取授权码
+    password: SBIRSCKEEACSVXJS
+    # 邮箱设置中显示的服务器地址
+    host: smtp.126.com
+    username: jicky2008chen@126.com
+#    properties: mail.smtp.ssl.enable=true
