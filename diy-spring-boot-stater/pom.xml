@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.git</groupId>
+    <artifactId>diy-spring-boot-stater</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>自定义启动器</name>
+
+    <!--有样学样，根据官方的启动器模式，自定义的启动器最好也是定义两个模块，
+    一个空模块作为启动器模块，只负责引入自动配置模块
+    一个实际的自动配置模块
+    -->
+    <dependencies>
+        <dependency>
+            <groupId>com.git</groupId>
+            <artifactId>diy-spring-boot-starter-autoconfiguer</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+</project>
