@@ -1,0 +1,20 @@
+server:
+  port: 92
+
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/chen?useUnicode=true&useSSL=false&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    initialization-mode: never
+    schema:
+      - "classpath:db/schema.sql"
+    data:
+      - "classpath:db/data.sql"
+
+
+logging:
+  level:
+    root: warn
+    cnblogs.chenbenbuyi.service: info
+    cnblogs.chenbenbuyi: warn

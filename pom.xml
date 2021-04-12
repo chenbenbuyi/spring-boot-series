@@ -24,6 +24,8 @@
         <module>spring-boot-dubbo(consumer)</module>
         <module>spring-boot-cache</module>
         <module><![CDATA[spring-boot-async&mail]]></module>
+        <module>spring-boot-tx</module>
+        <module>spring-boot-scheduler</module>
     </modules>
 
     <properties>
