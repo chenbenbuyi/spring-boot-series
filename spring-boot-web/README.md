@@ -5,3 +5,8 @@
  ② 语言变量抽取，在 thymeleaf 模板使用 #{XX} 取值的方式对应国际化文件中的键，实现国际化取值。
  ③ 配置好语言文件基础名 spring.message.basename（参见MessageSourceAutoConfiguration）后访问页面，默认就会根据浏览器语言信息(比如谷歌浏览器以排在最顶层的语言为默认显示，注意观察请求头中 Accept-Language的变化)显示默认的国际化环境语言
  ④ 自定义解析器 LocaleResolver 用来切换语言 
+ 
+## 异常
+>> 在使用druid 连接池使用 sqlite 数据库库时遇到过以下异常：
+>  java.lang.IllegalStateException: dbType not support : sqlite, url jdbc:sqlite:D:\xxx.db at com.alibaba.druid.wall.WallFilter.init(WallFilter.java:167) at com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:839)
+> 跟踪源码，在于  com.alibaba.druid.wall.WallFilter.init 方法判断中就没有sqlite的支持。找到方法调用位置，filters配置屏蔽掉 WallFilter 即可
