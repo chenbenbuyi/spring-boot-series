@@ -92,7 +92,7 @@ public class ExcelTest {
      * 测试大数据量的耗时——XSSFWorkbook
      * 在该测试项中，65535行数据100列的情况下，测试竟然报出了oom——
      * java.lang.OutOfMemoryError: Java heap space
-     * 这是 poi 内存消耗的老问题，因为 poi会先将所有数据加载到内存，再写入磁盘，这也是后面 EasyExcel针对改进的地方
+     * 这是 poi 内存消耗的老问题，，因为 poi会先将所有数据加载到内存再写入磁盘，这也是后面 EasyExcel针对改进的地方
      * 经测试对比： HSSFWorkbook 和 XSSFWorkbook 在写入同样数据量——65535行 10列的时间消耗分别为 3秒和 12秒，可以看出，XSSFWorkbook的效率着实不怎么样，但其有点就是不限制行数——只要内存够
      */
     @Test

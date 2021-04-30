@@ -3,6 +3,8 @@ package cnblogs.chenbenbuyi;
 import cn.hutool.json.JSONUtil;
 import cnblogs.chenbenbuyi.pojo.SerialUser;
 import cnblogs.chenbenbuyi.pojo.User;
+import cnblogs.chenbenbuyi.service.CacheService;
+import cnblogs.chenbenbuyi.utils.RedisUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +24,13 @@ import org.springframework.data.redis.core.ZSetOperations;
 public class RedisTest {
 
     @Autowired
-    RedisTemplate redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
+
+    @Autowired
+    RedisUtil redisUtil;
+
+    @Autowired
+    CacheService cacheService;
 
     @BeforeEach
     public void test() {
@@ -79,5 +87,14 @@ public class RedisTest {
         System.out.println(redisTemplate.opsForValue().get("serialUser"));
     }
 
+
+    @Test
+    public void verifyTest() {
+        redisTemplate.opsForValue().set("chen","shaoxian");
+        cacheService.getNameformDb();
+        cacheService.getNameformDb();
+        System.out.println(redisTemplate.opsForValue().get("chen"));
+        System.out.println(redisTemplate.opsForValue().get("test::test"));
+    }
 
 }

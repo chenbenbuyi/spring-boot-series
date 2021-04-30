@@ -3,6 +3,7 @@ package cnblogs.chenbenbuyi.service;
 import cnblogs.chenbenbuyi.entity.UserEntity;
 import cnblogs.chenbenbuyi.mapper.UserMapper;
 import cnblogs.chenbenbuyi.service.impl.BaseServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**

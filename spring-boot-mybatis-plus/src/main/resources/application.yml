@@ -3,7 +3,7 @@ server:
 spring:
   datasource:
     username: root
-    password: 123456
+    password:
       # mysql-connector-java 依赖如果没有指定版本，默认跟随 spring-boot-dependencies 里的版本，随着boot版本的提高，相应依赖的版本也会提高，随之会有一些版本兼容问题
       # 比如这里涉及时间的兼容性问题。在 MySQL8.0 的驱动包中默认时区是全球统一时间 (UTC)，而北京时间则是 UTC+8，注意时间测试。如果设置 serverTimezone=UTC，会比中国时间早8个小时，如果在中国，可以选择Asia/Shanghai或者Asia/Hongkong，
       # allowMultiQueries=true 开启批处理支持
@@ -41,3 +41,8 @@ logging:
     cnblogs.chenbenbuyi: info
     # 不分青红皂白，更改所有包的日志级别
     # root: info
+chen:
+  xscoket:
+    name: chen
+    password: 1234545
+    age: 333
