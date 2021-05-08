@@ -92,7 +92,6 @@ public class RedisTest {
     public void verifyTest() {
         redisTemplate.opsForValue().set("chen","shaoxian");
         cacheService.getNameformDb();
-        cacheService.getNameformDb();
         System.out.println(redisTemplate.opsForValue().get("chen"));
         System.out.println(redisTemplate.opsForValue().get("test::test"));
     }

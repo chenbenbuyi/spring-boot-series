@@ -18,6 +18,6 @@ public class CacheService {
     @Cacheable(cacheNames = "test",key = "'test'")
     public String getNameformDb(){
         log.info("从数据库查询。。。。。。。。。。。。。。。。。。。");
-        return "name";
+        return "chenshaoxian";
     }
 }

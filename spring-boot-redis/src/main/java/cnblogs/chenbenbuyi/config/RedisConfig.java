@@ -13,6 +13,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -26,8 +27,10 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.util.DigestUtils;
 
 import java.time.Duration;
+import java.util.HashMap;
 
 /**
  * @author chen
@@ -76,44 +79,40 @@ public class RedisConfig<K,V> extends CachingConfigurerSupport{
         objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
         jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
         RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig();
-        configuration = configuration.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer)).entryTtl(Duration.ofDays(30));
+        configuration = configuration.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer)).entryTtl(Duration.ofDays(1));
         return configuration;
     }
 
 
 
     /**
-     * 自定义缓存注解key的生成策略。默认的生成策略是看不懂的(乱码内容)
-     * 通过Spring 的依赖注入特性进行自定义的配置注入并且此类是一个配置类可以更多程度的自定义配置
-     * 这里是生成的key是：类全名.方法名 方法参数（的md5加密）
+     * 自定义缓存注解key的生成策略。 这里是生成的key是：类全名.方法名 方法参数（的md5加密）
      */
-//    @Override
-//    public KeyGenerator keyGenerator() {
-//        return (target, method, params) -> {
-//            StringBuilder prefix = new StringBuilder();
-//            prefix.append(target.getClass().getName());
-//            prefix.append(".").append(method.getName());
-//            StringBuilder sb = new StringBuilder();
-//            for (Object obj : params) {
-//                sb.append(obj.toString());
-//            }
-//            return prefix.append(DigestUtils.md5DigestAsHex(sb.toString().getBytes()));
-//        };
-//    }
+    @Override
+    public KeyGenerator keyGenerator() {
+        return (target, method, params) -> {
+            StringBuilder prefix = new StringBuilder();
+            prefix.append(target.getClass().getName());
+            prefix.append(".").append(method.getName());
+            StringBuilder sb = new StringBuilder();
+            for (Object obj : params) {
+                sb.append(obj.toString());
+            }
+            return prefix.append(DigestUtils.md5DigestAsHex(sb.toString().getBytes()));
+        };
+    }
 
 
     /**
-     *  缓存配置管理器
-     *  实际上，引入了Redis之后，通过自动配置机制{@link org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration}会向容器中配置并注入了默认的Redis的缓存管理器{@link org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration#cacheManager(org.springframework.boot.autoconfigure.cache.CacheProperties, org.springframework.boot.autoconfigure.cache.CacheManagerCustomizers, org.springframework.beans.factory.ObjectProvider, org.springframework.beans.factory.ObjectProvider, org.springframework.data.redis.connection.RedisConnectionFactory, org.springframework.core.io.ResourceLoader)}
+     *  自定义缓存管理器
+     *  实际上，引入了Redis之后，通过自动配置原理机制{@link org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration}会向容器中配置并注入了默认的Redis的缓存管理器{@link org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration#cacheManager(org.springframework.boot.autoconfigure.cache.CacheProperties, org.springframework.boot.autoconfigure.cache.CacheManagerCustomizers, org.springframework.beans.factory.ObjectProvider, org.springframework.beans.factory.ObjectProvider, org.springframework.data.redis.connection.RedisConnectionFactory, org.springframework.core.io.ResourceLoader)}
      *  这里自定义缓存管理器，便于自定义配置
      */
     @Bean
     public CacheManager cacheManager(LettuceConnectionFactory factory) {
+        RedisCacheConfiguration redisCacheConfiguration = redisCacheConfiguration();
         //以锁写入的方式创建RedisCacheWriter对象
         RedisCacheWriter writer = RedisCacheWriter.lockingRedisCacheWriter(factory);
-        //设置缓存注解的缓存时间，缓存1小时
-        Duration duration = Duration.ofSeconds(3600L);
-        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig().entryTtl(duration);
         return new RedisCacheManager(writer, redisCacheConfiguration);
     }
 
