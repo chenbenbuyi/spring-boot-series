@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
  * @date 2021/4/4 18:50
  * @Description
  */
-
 @Service
 public class ConsumerService {
     /**

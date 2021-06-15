@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
 /**
  * @author chen
  * @date 2021/4/6 20:42
@@ -18,7 +21,11 @@ public class AsyncTest {
 
 
     @Test
-    public void test(){
-        System.out.println(asyncService.getResult());
+    public void test() throws ExecutionException, InterruptedException {
+        asyncService.asyncTask();
+        asyncService.asyncTask();
+        Future<String> future = asyncService.asyncTask("我是小仙！");
+        System.out.println("任务提交完成");
+        System.out.println(future.get());
     }
 }

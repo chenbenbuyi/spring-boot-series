@@ -6,3 +6,10 @@ spring:
     host: smtp.126.com
     username: jicky2008chen@126.com
 #    properties: mail.smtp.ssl.enable=true
+
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/hello-boot?useUnicode=true&useSSL=false&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+
+
