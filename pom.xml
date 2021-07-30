@@ -38,6 +38,8 @@
         <mybatis-plus-verion>3.4.0</mybatis-plus-verion>
         <!--编译导包字符集设置-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- 通过 Harbor 进行镜像仓库管理 -->
+        <docker-repository>127.0.0.1:6666/test/</docker-repository>
     </properties>
 
     <!--避免单继承问题，采用的一种依赖管理方式-->

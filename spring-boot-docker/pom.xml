@@ -41,8 +41,10 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <username>admin</username>
+                    <password>123456</password>
                     <!--repository 节点指定镜像仓库名字-->
-                    <!--<repository>docker-server</repository>-->
+                    <repository>${docker-repository}${project.artifactId}</repository>
                     <!--尝试移动Dockerfile文件，路径会自己跟着改变-->
                     <dockerfile>Dockerfile</dockerfile>
                     <!--镜像版本信息-->
@@ -54,6 +56,7 @@
                     <buildArgs>
                         <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
+                    <pullNewerImage>false</pullNewerImage>
                 </configuration>
             </plugin>
         </plugins>
