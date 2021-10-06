@@ -26,6 +26,7 @@
         <module><![CDATA[spring-boot-async&mail]]></module>
         <module>spring-boot-tx</module>
         <module>spring-boot-scheduler</module>
+        <module>spring-boot-rabbitmq</module>
     </modules>
 
     <properties>
