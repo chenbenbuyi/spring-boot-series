@@ -26,6 +26,7 @@
         <module><![CDATA[spring-boot-async&mail]]></module>
         <module>spring-boot-tx</module>
         <module>spring-boot-scheduler</module>
+        <module>spring-boot-listener</module>
         <module>spring-boot-rabbitmq</module>
     </modules>
 
@@ -36,7 +37,9 @@
         <!--解决 Warning:java: 源值1.5已过时, 将在未来所有发行版中删除  告警问题-->
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <mybatis-plus-verion>3.4.0</mybatis-plus-verion>
+        <mybatis-plus-verion>
+
+            3.4.0</mybatis-plus-verion>
         <!--编译导包字符集设置-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- 通过 Harbor 进行镜像仓库管理 -->
@@ -103,6 +106,10 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -132,7 +139,8 @@
                 <version>2.19.1</version>
                 <configuration>
                     <!--关掉单元测试 -->
-                    <skipTests>true</skipTests>
+                    <!--<skipTests>true</skipTests>-->
+                    <skipTests>false</skipTests>
                 </configuration>
             </plugin>
         </plugins>

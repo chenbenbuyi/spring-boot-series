@@ -49,3 +49,11 @@ spring:
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
       # 合并多个DruidDataSource的监控数据
       useGlobalDataSourceStat: true
+
+
+# 自定义启动器配置测试
+diy:
+  chen:
+    name: 买个床
+    address: 阿拉斯加
+    age: 20

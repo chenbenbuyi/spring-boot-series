@@ -10,6 +10,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 /**
  * @date: 2020/11/3 14:27
  * @author: chen
@@ -19,7 +21,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @TableName("one_user")
-public class UserEntity extends BaseEntity<UserEntity> {
+public class UserEntity extends BaseEntity {
 
     @TableId(type = IdType.AUTO)
     private Long id;
