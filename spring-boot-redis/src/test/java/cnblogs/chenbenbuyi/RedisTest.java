@@ -15,6 +15,9 @@ import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 
+import java.util.Map;
+import java.util.Set;
+
 /**
  * @author chen
  * @date 2021/3/24 22:03
@@ -36,7 +39,7 @@ public class RedisTest {
     public void test() {
         // 获取连接对象
         RedisConnection connection = redisTemplate.getConnectionFactory().getConnection();
-        connection.flushDb();
+//        connection.flushDb();
     }
 
     /**
@@ -68,8 +71,8 @@ public class RedisTest {
 
     /**
      * 真实场景中一般以json的形式将对象存入Redis
-     *  要么实现序列化接口，默认的序列化器会进行序列化
-     *  要么通过第三方类库序列化成 json 字符串
+     * 要么实现序列化接口，默认的序列化器会进行序列化
+     * 要么通过第三方类库序列化成 json 字符串
      */
     @Test
     public void rightTest() throws JsonProcessingException {
@@ -90,10 +93,30 @@ public class RedisTest {
 
     @Test
     public void verifyTest() {
-        redisTemplate.opsForValue().set("chen","shaoxian");
+        redisTemplate.opsForValue().set("chen", "shaoxian");
         cacheService.getNameformDb();
         System.out.println(redisTemplate.opsForValue().get("chen"));
         System.out.println(redisTemplate.opsForValue().get("test::test"));
     }
 
+
+    @Test
+    public void testHash() {
+        Map<Object, Object> chen = redisTemplate.opsForHash().entries("chen");
+        System.out.println(chen);
+//        redisTemplate.opsForHash().delete("chen", "k");
+        System.out.println("================");
+        Map<Object, Object> chen2 = redisTemplate.opsForHash().entries("chen");
+        System.out.println(chen2);
+
+        redisTemplate.opsForHash().increment("chen", "num", 20);
+
+    }
+
+    @Test
+    public void hashKeys() {
+        Set<Object> chen = redisTemplate.opsForHash().keys("chen");
+        boolean b =  redisTemplate.opsForHash().hasKey("chen","1");
+        System.out.println(chen);
+    }
 }

@@ -1,7 +1,7 @@
 spring:
   redis:
-    host: 192.168.10.225
-    port: 6382
+    host: 127.0.0.1
+    port: 6379
 #    password: 123456
     # 配置lettuce
     lettuce:
@@ -13,12 +13,12 @@ spring:
           # 连接池最大连接数（使用负值表示没有限制,不要配置过大，否则可能会影响redis的性能）
         max-active: 10
           # 连接池最大阻塞等待时间（使用负值表示没有限制）
-        max-wait: 1000ms
+        max-wait: 1000
     # redis只读库配置
-      redis-read-configs:
-        - host: 192.168.56.104
-          port: 6379
-          password: 123456
-        - host: 192.168.56.105
-          port: 6379
-          password: 123456
+#      redis-read-configs:
+#        - host: 192.168.56.104
+#          port: 6379
+#          password: 123456
+#        - host: 192.168.56.105
+#          port: 6379
+#          password: 123456

@@ -1,8 +1,10 @@
 package chenbenbuyi;
 
 import cnblogs.chenbenbuyi.RabbitApplication;
+import cnblogs.chenbenbuyi.model.UpdateTaskStatusDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +26,7 @@ public class ProducerTest {
     // hello world 模型
     @Test
     public void test1() {
-        rabbitTemplate.convertAndSend("hello","测试hello world 消息发送");
+        rabbitTemplate.convertAndSend("kingkong.task.status.queuetest","测试hello world 消息发送");
     }
 
 
