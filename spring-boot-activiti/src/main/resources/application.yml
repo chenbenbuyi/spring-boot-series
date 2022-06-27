@@ -1,7 +1,7 @@
 spring:
   activiti:
     async-executor-activate: true
-    # activiti 对数据库中的表进行更新，如果不存在，则创建
+    # activiti 对数据库中的表进行更新，如果不存在，则创建(线上一般用false)
     database-schema-update: true
     db-history-used: true
     history-level: full
