@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <property name="LOG_HOME" value="D://log"/>
+    <property name="APP_NAME" value="spring-boot-series"/>
+    <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} -- [ %thread ] - [ %-5level ] [ %logger{50} : %line ] - %msg%n"/>
+
+
+    <!--输出控制台-->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} --默认格式--[%thread] %-5level %logger{50} - %msg%n</pattern>
+            <springProfile name="dev">
+                <pattern>${PATTERN}</pattern>
+            </springProfile>
+            <springProfile name="prod">
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} --生产日志-- [%thread] %-5level %logger{50} - %msg%n</pattern>
+            </springProfile>
+        </layout>
+    </appender>
+
+
+    <root level="debug">
+        <appender-ref ref="stdout"/>
+    </root>
+</configuration>
