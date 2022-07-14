@@ -69,9 +69,9 @@ public class ActivitiTest {
     public void testDeployment() {
         Deployment deploy = repositoryService.createDeployment()
                 // 实测该名称和画流程定义中的流程名称不是同一个东西，这个名称是指部署流程时随便取名称，和定义的流程的名称不是同一个概念
-                .name("随便取的名字")
+                .name("随便取的名字33333")
                 .addClasspathResource("processes/陈某人测试流程.bpmn")
-                .addClasspathResource("processes/陈某人测试流程.png")
+//                .addClasspathResource("processes/陈某人测试流程.png")
                 .deploy();
 
         System.out.println("流程部署Id:" + deploy.getId());
