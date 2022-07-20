@@ -8,7 +8,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2022/6/26 22:35
  * @Description
  */
-@SpringBootApplication
+@SpringBootApplication(
+        exclude = {
+                org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class,
+                org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration.class
+        })
 public class ActivitiApplication {
 
     public static void main(String[] args) {

@@ -16,7 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author chen 网关相关测试
@@ -25,7 +28,7 @@ import java.util.*;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ActivitiApplication.class)
-public class GatewayTest {
+public class GatewayTest2 {
 
     // 任务管理对象
     @Autowired
@@ -53,8 +56,8 @@ public class GatewayTest {
     @Test
     public void testDeployment() {
         Deployment deploy = repositoryService.createDeployment()
-                .name("组件审批流程233")
-                .addClasspathResource("processes/组件的审批流程.bpmn")
+                .name("水电费水电费")
+                .addClasspathResource("processes/随便测试.bpmn")
                 .deploy();
 
         System.out.println("流程部署Id:" + deploy.getId());
@@ -73,7 +76,7 @@ public class GatewayTest {
     public void testStartProcess() {
         // 审批单的表id
         String businessKey = "process_approval_id:123";
-        String processDefinitionId = "id_1:1:3";
+        String processDefinitionId = "myProcess_1:1:5003";
         ProcessInstance processInstance = runtimeService.startProcessInstanceById(processDefinitionId,businessKey);
         Task task = taskService.createTaskQuery().processInstanceId(processInstance.getProcessInstanceId()).singleResult();
         task.setAssignee("陈一步");
@@ -121,12 +124,12 @@ public class GatewayTest {
     @Test
     public void findCompleteTask() {
 //        String userId = "陈一步";
-        String userId = "chenshaoxian";
+        String userId = "technology_expert";
         List<HistoricTaskInstance> historicTaskInstances = historyService.createHistoricTaskInstanceQuery().taskAssignee(userId).orderByTaskCreateTime().desc().finished().list();
         historicTaskInstances.forEach(h -> {
             System.out.println("任务id：" + h.getId());
             System.out.println("任务名称：" + h.getName());
-            System.out.println("任务的办理任：" + h.getAssignee());
+            System.out.println("任务的办理人：" + h.getAssignee());
             System.out.println("任务的开始时间：" + h.getStartTime());
             System.out.println("任务的结束时间" + h.getEndTime());
             System.out.println("流程实例ID：" + h.getProcessInstanceId());
@@ -156,7 +159,7 @@ public class GatewayTest {
 
     @Test
     public void testCompleteByTaskId() {
-        String taskId = "2508";
+        String taskId = "10005";
         String userId = "陈二步";
         Map<String, Object> variablesMap = new HashMap<>(2);
         variablesMap.put("pass", true);
