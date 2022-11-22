@@ -23,6 +23,13 @@
             <version>${project.parent.version}</version>
         </dependency>
 
+        <!--本地缓存 todo 参考本地缓存操作 https://www.cnblogs.com/softwarearch/p/16914069.html-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.1-jre</version>
+        </dependency>
+
         <!--根据Spring Boot 自动配置原理，只需引入该启动其，即可无缝切换缓存组件-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
