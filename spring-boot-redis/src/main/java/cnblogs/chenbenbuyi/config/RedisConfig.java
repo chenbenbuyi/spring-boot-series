@@ -1,5 +1,6 @@
 package cnblogs.chenbenbuyi.config;
 
+import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -10,6 +11,10 @@ import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.codec.FstCodec;
+import org.redisson.config.Config;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -20,6 +25,7 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.*;
@@ -36,6 +42,18 @@ import java.util.HashMap;
  */
 @Configuration
 public class RedisConfig<K,V> extends CachingConfigurerSupport{
+
+
+    @Bean
+    public RedissonClient getRedisson() {
+        Config config = new Config();
+        config.useSingleServer().setAddress("redis://localhost:6379").setDatabase(1);
+        config.setThreads(0);
+        config.setNettyThreads(0);
+        config.setCodec(new FstCodec());
+        return Redisson.create(config);
+    }
+
 
     /**
      * 自定义RedisTemplate ,原始的{@link RedisTemplate} 采用的是默认的序列化器 JdkSerializationRedisSerializer
@@ -113,6 +131,10 @@ public class RedisConfig<K,V> extends CachingConfigurerSupport{
         return new RedisCacheManager(writer, redisCacheConfiguration);
     }
 
+    @Bean
+    public LettuceConnectionFactory redisConnectionFactory() {
+        return new LettuceConnectionFactory(new RedisStandaloneConfiguration("localhost", 6379));
+    }
 
 
     private RedisSerializer<String> keySerializer() {
